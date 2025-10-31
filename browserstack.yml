@@ -1,0 +1,13 @@
+userName: rahulb_bxaLXO
+accessKey: ktocqdmNKnDJT2EdJYhj
+platforms:
+  - os: Windows
+    osVersion: 11
+    browserName: chrome
+    browserVersion: latest
+  - browserName: safari
+    osVersion: 18.6
+    deviceName: iPhone 16
+  - browserName: chrome
+    osVersion: 12.0
+    deviceName: Samsung Galaxy S22 Ultra
