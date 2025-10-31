@@ -11,11 +11,12 @@ test.describe('test describe block', () => {
     });
 
     test.beforeEach('Before Each', async ({ page }) => {
-         pomanager = new POManager(page);
-        await page.goto("https://rahulshettyacademy.com/AutomationPractice/?utm_source=chatgpt.com");
+        pomanager = new POManager(page);
+        //await page.goto("https://rahulshettyacademy.com/AutomationPractice/?utm_source=chatgpt.com");
     });
 
     test('Block to check all header tabs ', async ({ page }) => {
+        await page.goto("https://rahulshettyacademy.com/AutomationPractice/?utm_source=chatgpt.com");
         await pomanager.loginpage.homeButton.waitFor();
         await expect(pomanager.loginpage.homeButton).toBeVisible();
         await expect(pomanager.loginpage.loginButton).toBeVisible();
@@ -25,11 +26,22 @@ test.describe('test describe block', () => {
     });
 
     test('Block to test all the radio buttons', async ({ page }) => {
+        await page.goto("https://rahulshettyacademy.com/AutomationPractice/?utm_source=chatgpt.com");
         await pomanager.loginpage.radioButton1.click();
         await pomanager.loginpage.radioButton2.click();
         await pomanager.loginpage.dropdownSelect.selectOption('Option1');
         await pomanager.loginpage.nameField.waitFor();
         await pomanager.loginpage.nameField.fill("Rahul reocord");
         await pomanager.loginpage.alertButton.click();
+
     });
+    test('Amazon check', async ({ page }) => {
+        await page.goto("https://www.amazon.in");
+        await pomanager.amazonHomepage.searchbar.fill("Technical books of java");
+        await pomanager.amazonHomepage.goButton.waitFor();
+        await pomanager.amazonHomepage.goButton.click();
+        await pomanager.amazonHomepage.merchantPay.waitFor();
+        const count = await pomanager.amazonHomepage.allItems.count();
+        console.log(count);
+    })
 });

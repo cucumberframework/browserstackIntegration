@@ -10,15 +10,16 @@ export default defineConfig({
 const config = {
   testDir: './tests',
   expect: {
-    timeout: 30000, // Set the timeout for expect assertions to 10 seconds (in milliseconds)
+    timeout: 30000,
   },
-  timeout: 30000,
-  retries: 1,
+  timeout: 90000,
+  fullyParallel: true,
+  workers: process.env.CI ? 1 : 3,
+  retries: process.env.CI ? 2 : 1,
   use: {
     headless: true,
     viewport: { width: 1280, height: 720 },
     ignoreHTTPSErrors: true,
   },
 };
-
 module.exports = config;
