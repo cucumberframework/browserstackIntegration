@@ -8,7 +8,7 @@ export default defineConfig({
   },
   timeout: 90000,
   fullyParallel: true,
-  workers: process.env.CI ? 1 : 3,
+  workers: process.env.CI ? 3 : 3,
   retries: process.env.CI ? 2 : 1,
 
   // ✅ Add reporters here
