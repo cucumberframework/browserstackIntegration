@@ -15,7 +15,7 @@ test.describe('test describe block', () => {
         //await page.goto("https://rahulshettyacademy.com/AutomationPractice/?utm_source=chatgpt.com");
     });
 
-    test.skip('Block to check all header tabs ', async ({ page }) => {
+    test('Block to check all header tabs ', async ({ page }) => {
         await page.goto("https://rahulshettyacademy.com/AutomationPractice/?utm_source=chatgpt.com");
         await pomanager.loginpage.homeButton.waitFor();
         await expect(pomanager.loginpage.homeButton).toBeVisible();
@@ -25,7 +25,7 @@ test.describe('test describe block', () => {
         await pomanager.loginpage.homeButton.click();
     });
 
-    test.skip('Block to test all the radio buttons', async ({ page }) => {
+    test('Block to test all the radio buttons', async ({ page }) => {
         await page.goto("https://rahulshettyacademy.com/AutomationPractice/?utm_source=chatgpt.com");
         await pomanager.loginpage.radioButton1.click();
         await pomanager.loginpage.radioButton2.click();
@@ -37,6 +37,9 @@ test.describe('test describe block', () => {
     });
     test('Amazon check', async ({ page }) => {
         await page.goto("https://www.amazon.in");
+        await page.pause();
+        await pomanager.amazonHomepage.continueShopping.waitFor();
+        await pomanager.amazonHomepage.continueShopping.click();
         await pomanager.amazonHomepage.searchbar.fill("Technical books of java");
         await pomanager.amazonHomepage.goButton.waitFor();
         await pomanager.amazonHomepage.goButton.click();

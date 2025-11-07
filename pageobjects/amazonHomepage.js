@@ -5,6 +5,7 @@ class amazonHomepage {
         this.goButton = page.locator('input[value="Go"]');
         this.allItems = page.locator('div[role="listitem"]');
         this.merchantPay = page.getByRole('link',{name:'Amazon Pay on Merchants'});
+        this.continueShopping = page.getByRole('button',{name:'Continue Shopping'});
 
 
     }
