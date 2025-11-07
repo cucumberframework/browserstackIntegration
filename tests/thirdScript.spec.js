@@ -18,7 +18,7 @@ test.describe('test describe block', () => {
 
     test('Amazon check', async ({ page }) => {
         await page.goto("https://www.amazon.in");
-        await page.pause();
+       // await page.pause();
         await pomanager.amazonHomepage.continueShopping.waitFor();
         await pomanager.amazonHomepage.continueShopping.click();
         await pomanager.amazonHomepage.searchbar.fill("Technical books of java");
