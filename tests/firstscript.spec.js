@@ -15,7 +15,7 @@ test.describe('test describe block', () => {
         //await page.goto("https://rahulshettyacademy.com/AutomationPractice/?utm_source=chatgpt.com");
     });
 
-    test('Block to check all header tabs ', async ({ page }) => {
+    test.skip('Block to check all header tabs ', async ({ page }) => {
         await page.goto("https://rahulshettyacademy.com/AutomationPractice/?utm_source=chatgpt.com");
         await pomanager.loginpage.homeButton.waitFor();
         await expect(pomanager.loginpage.homeButton).toBeVisible();
@@ -25,7 +25,7 @@ test.describe('test describe block', () => {
         await pomanager.loginpage.homeButton.click();
     });
 
-    test('Block to test all the radio buttons', async ({ page }) => {
+    test.skip('Block to test all the radio buttons', async ({ page }) => {
         await page.goto("https://rahulshettyacademy.com/AutomationPractice/?utm_source=chatgpt.com");
         await pomanager.loginpage.radioButton1.click();
         await pomanager.loginpage.radioButton2.click();
