@@ -42,3 +42,13 @@ steps:
     script: |
       echo "##vso[task.addattachment type=Distributedtask.Core.Summary;name=Allure Report;]$(System.DefaultWorkingDirectory)/allure-report/index.html"
   displayName: 'Attach Allure Report to Pipeline Summary'
+
+# 10️⃣ Publish Test Results
+- task: PublishTestResults@2
+  inputs:
+    testResultsFiles: '**/results.xml'
+    testResultsFormat: 'JUnit'
+    mergeTestResults: true
+    failTaskOnFailedTests: true
+  displayName: 'Publish Test Results to Azure DevOps'
+
