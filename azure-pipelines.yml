@@ -1,53 +1,62 @@
-# azure-pipelines.yml (hosted agent)
 trigger:
   branches:
-    include: [ main ]
+    include:
+      - main
 
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  nodeVersion: '18.x'
+
 steps:
+# 1️⃣ Checkout source code
 - checkout: self
 
-- task: NodeTool@0
-  inputs:
-    versionSpec: '18.x'   # set node version you need
-
-- script: |
-    npm ci
-    npx playwright install --with-deps
-  displayName: 'npm ci & playwright install'
-steps:
-# 1️⃣ Use Node
+# 2️⃣ Setup Node.js
 - task: UseNode@1
   inputs:
     versionSpec: '$(nodeVersion)'
+  displayName: 'Use Node.js $(nodeVersion)'
 
-# 2️⃣ Cache dependencies
+# 3️⃣ Cache NPM dependencies
 - task: Cache@2
   inputs:
     key: 'npm | "$(Agent.OS)" | package-lock.json'
     restoreKeys: |
       npm | "$(Agent.OS)"
     path: $(Pipeline.Workspace)/.npm
-  displayName: Cache NPM dependencies
+  displayName: 'Cache NPM dependencies'
 
-# 3️⃣ Install dependencies using cached folder
+# 4️⃣ Install dependencies using cache
 - script: |
     npm config set cache $(Pipeline.Workspace)/.npm --global
     npm ci
-  displayName: Install dependencies
+    npx playwright install --with-deps
+  displayName: 'Install NPM dependencies and Playwright'
+
+# 5️⃣ Run Playwright tests
 - script: |
     npx playwright test --reporter=list,junit --output=test-results
   displayName: 'Run Playwright tests'
 
+# 6️⃣ Publish test results
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'JUnit'
     testResultsFiles: 'test-results/*.xml'
     failTaskOnFailedTests: true
+  displayName: 'Publish Playwright test results'
 
+# 7️⃣ Publish artifacts (optional)
 - task: PublishBuildArtifacts@1
   inputs:
     pathtoPublish: 'test-results'
     artifactName: 'Playwright-Test-Artifacts'
+  displayName: 'Publish Playwright test artifacts'
+
+# 8️⃣ Publish Playwright report
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: 'playwright-report'
+    artifact: 'Playwright-Test-Artifacts'
