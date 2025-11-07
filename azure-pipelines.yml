@@ -17,7 +17,26 @@ steps:
     npm ci
     npx playwright install --with-deps
   displayName: 'npm ci & playwright install'
+steps:
+# 1️⃣ Use Node
+- task: UseNode@1
+  inputs:
+    versionSpec: '$(nodeVersion)'
 
+# 2️⃣ Cache dependencies
+- task: Cache@2
+  inputs:
+    key: 'npm | "$(Agent.OS)" | package-lock.json'
+    restoreKeys: |
+      npm | "$(Agent.OS)"
+    path: $(Pipeline.Workspace)/.npm
+  displayName: Cache NPM dependencies
+
+# 3️⃣ Install dependencies using cached folder
+- script: |
+    npm config set cache $(Pipeline.Workspace)/.npm --global
+    npm ci
+  displayName: Install dependencies
 - script: |
     npx playwright test --reporter=list,junit --output=test-results
   displayName: 'Run Playwright tests'
