@@ -19,16 +19,26 @@ steps:
   displayName: 'npm ci & playwright install'
 
 - script: |
-    npx playwright test --reporter=list,junit --output=test-results
-  displayName: 'Run Playwright tests'
+    npx playwright test --reporter=line,allure-playwright
+  displayName: 'Run Playwright Tests with Allure Reporter'
 
-- task: PublishTestResults@2
-  inputs:
-    testResultsFormat: 'JUnit'
-    testResultsFiles: 'test-results/*.xml'
-    failTaskOnFailedTests: true
+# 7️⃣ Generate Allure HTML report
+- script: |
+    npx allure generate allure-results --clean -o allure-report
+  displayName: 'Generate Allure Report'
 
+# 8️⃣ Publish Allure HTML report as a build artifact
 - task: PublishBuildArtifacts@1
   inputs:
-    pathtoPublish: 'test-results'
-    artifactName: 'Playwright-Test-Artifacts'
+    pathToPublish: 'allure-report'
+    artifactName: 'AllureReport'
+    publishLocation: 'Container'
+  displayName: 'Publish Allure HTML Report'
+
+# 9️⃣ (Optional) Publish link to Allure report in pipeline summary
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      echo "##vso[task.addattachment type=Distributedtask.Core.Summary;name=Allure Report;]$(System.DefaultWorkingDirectory)/allure-report/index.html"
+  displayName: 'Attach Allure Report to Pipeline Summary'

@@ -14,7 +14,7 @@ export default defineConfig({
   // ✅ Add reporters here
   reporter: [
     ['list'],
-    ['junit', { outputFile: 'test-results/results.xml' }]
+    ['allure-playwright']
   ],
 
   use: {
